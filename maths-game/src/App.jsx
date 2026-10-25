@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import Header from './components/Header';
+import LandingPage from './screens/LandingPage';
 import HomeScreen from './screens/HomeScreen';
 import TopicPickerScreen from './screens/TopicPickerScreen';
 import GamePickerScreen from './screens/GamePickerScreen';
@@ -15,13 +16,31 @@ import {
 import { getLevelInfo } from './utils/gamification';
 import { playSound } from './utils/sound';
 
+function loadLangPreference() {
+  try {
+    return localStorage.getItem('brilliance-lang') || 'km';
+  } catch {
+    return 'km';
+  }
+}
+
+function saveLangPreference(lang) {
+  try {
+    localStorage.setItem('brilliance-lang', lang);
+  } catch {
+    // silent
+  }
+}
+
 export default function App() {
   const [progress, setProgress] = useState(loadProgress);
   const [soundEnabled, setSoundEnabled] = useState(loadSoundPreference);
+  const [lang, setLang] = useState(loadLangPreference);
 
   // Navigation State
-  const [screen, setScreen] = useState('home'); // 'home' | 'topics' | 'games' | 'play' | 'results'
-  const [selectedYear, setSelectedYear] = useState(null); // 6 | 9
+  // 'landing' | 'home' | 'topics' | 'games' | 'play' | 'results'
+  const [screen, setScreen] = useState('landing');
+  const [selectedYear, setSelectedYear] = useState(null);
   const [selectedTopicId, setSelectedTopicId] = useState(null);
   const [selectedGameId, setSelectedGameId] = useState('quiz-blitz');
   const [resultData, setResultData] = useState(null);
@@ -35,6 +54,29 @@ export default function App() {
       return next;
     });
   }, []);
+
+  // Toggle language
+  const handleToggleLang = useCallback(() => {
+    setLang((prev) => {
+      const next = prev === 'en' ? 'km' : 'en';
+      saveLangPreference(next);
+      return next;
+    });
+  }, []);
+
+  // Launch maths portal from landing page
+  const handleLaunchMaths = () => {
+    setScreen('home');
+  };
+
+  // Navigate to landing from maths
+  const handleNavigateToLanding = () => {
+    setSelectedYear(null);
+    setSelectedTopicId(null);
+    setResultData(null);
+    setDidLevelUp(false);
+    setScreen('landing');
+  };
 
   // Year Selection
   const handleSelectYear = (year) => {
@@ -99,7 +141,9 @@ export default function App() {
 
   // Back Navigation
   const handleNavigateBack = () => {
-    if (screen === 'topics') {
+    if (screen === 'home') {
+      setScreen('landing');
+    } else if (screen === 'topics') {
       setSelectedYear(null);
       setScreen('home');
     } else if (screen === 'games') {
@@ -112,7 +156,7 @@ export default function App() {
     }
   };
 
-  // Home Navigation
+  // Home Navigation (within maths portal)
   const handleNavigateHome = () => {
     setSelectedYear(null);
     setSelectedTopicId(null);
@@ -142,54 +186,65 @@ export default function App() {
         selectedYear={selectedYear}
         progress={progress}
         soundEnabled={soundEnabled}
+        lang={lang}
         onToggleSound={handleToggleSound}
+        onToggleLang={handleToggleLang}
         onNavigateHome={handleNavigateHome}
         onNavigateBack={handleNavigateBack}
+        onNavigateToLanding={handleNavigateToLanding}
       />
 
-      <main className="container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {screen === 'home' && (
-          <HomeScreen
-            progress={progress}
-            onSelectYear={handleSelectYear}
-          />
-        )}
+      {screen === 'landing' && (
+        <main style={{ flex: 1 }}>
+          <LandingPage lang={lang} onLaunchMaths={handleLaunchMaths} />
+        </main>
+      )}
 
-        {screen === 'topics' && (
-          <TopicPickerScreen
-            selectedYear={selectedYear}
-            progress={progress}
-            onSelectTopic={handleSelectTopic}
-          />
-        )}
+      {screen !== 'landing' && (
+        <main className="container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {screen === 'home' && (
+            <HomeScreen
+              progress={progress}
+              onSelectYear={handleSelectYear}
+            />
+          )}
 
-        {screen === 'games' && (
-          <GamePickerScreen
-            selectedYear={selectedYear}
-            selectedTopicId={selectedTopicId}
-            onSelectGame={handleSelectGame}
-          />
-        )}
+          {screen === 'topics' && (
+            <TopicPickerScreen
+              selectedYear={selectedYear}
+              progress={progress}
+              onSelectTopic={handleSelectTopic}
+            />
+          )}
 
-        {screen === 'play' && ActiveGameComponent && (
-          <ActiveGameComponent
-            questions={currentQuestions}
-            soundEnabled={soundEnabled}
-            onFinish={handleGameFinish}
-            onExit={() => setScreen('games')}
-          />
-        )}
+          {screen === 'games' && (
+            <GamePickerScreen
+              selectedYear={selectedYear}
+              selectedTopicId={selectedTopicId}
+              onSelectGame={handleSelectGame}
+            />
+          )}
 
-        {screen === 'results' && (
-          <ResultsScreen
-            resultData={resultData}
-            progress={progress}
-            didLevelUp={didLevelUp}
-            onPlayAgain={handlePlayAgain}
-            onBackToTopics={() => setScreen('topics')}
-          />
-        )}
-      </main>
+          {screen === 'play' && ActiveGameComponent && (
+            <ActiveGameComponent
+              questions={currentQuestions}
+              soundEnabled={soundEnabled}
+              onFinish={handleGameFinish}
+              onExit={() => setScreen('games')}
+            />
+          )}
+
+          {screen === 'results' && (
+            <ResultsScreen
+              resultData={resultData}
+              progress={progress}
+              didLevelUp={didLevelUp}
+              onPlayAgain={handlePlayAgain}
+              onBackToTopics={() => setScreen('topics')}
+            />
+          )}
+        </main>
+      )}
     </div>
   );
 }
