@@ -1,5 +1,6 @@
 import { getLevelInfo } from '../utils/gamification';
 import { VolumeUpIcon, VolumeMuteIcon, ArrowLeftIcon } from './Icons';
+import logoImg from '../assets/logo.jpg';
 
 export default function Header({
   screen,
@@ -37,21 +38,17 @@ export default function Header({
               if (e.key === 'Enter') onNavigateHome();
             }}
           >
-            <span>Maths Practice</span>
-            {selectedYear && (
-              <span
-                style={{
-                  fontSize: '0.75rem',
-                  fontWeight: '600',
-                  color: 'var(--primary)',
-                  backgroundColor: 'var(--primary-soft)',
-                  padding: '2px 8px',
-                  borderRadius: 'var(--radius-sm)',
-                }}
-              >
-                Year {selectedYear}
+            <img
+              src={logoImg}
+              alt="Brilliance Tutoring Logo"
+              className="brand-logo-img"
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.2' }}>
+              <span className="brand-name">Brilliance Tutoring</span>
+              <span className="brand-subtitle">
+                {selectedYear ? `Year ${selectedYear} Maths` : 'Maths Practice'}
               </span>
-            )}
+            </div>
           </div>
         </div>
 

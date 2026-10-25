@@ -1,5 +1,6 @@
 import { getLevelInfo } from '../utils/gamification';
 import { ArrowRightIcon } from '../components/Icons';
+import logoImg from '../assets/logo.jpg';
 
 export default function HomeScreen({ progress, onSelectYear }) {
   const levelInfo = getLevelInfo(progress?.totalXp || 0);
@@ -7,13 +8,51 @@ export default function HomeScreen({ progress, onSelectYear }) {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
-      {/* Title & Prompt */}
+      {/* School Header Banner */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-4)',
+          padding: 'var(--space-4) 0',
+          marginBottom: 'var(--space-6)',
+          borderBottom: '1px solid var(--border)',
+        }}
+      >
+        <img
+          src={logoImg}
+          alt="Brilliance Tutoring School Logo"
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '50%',
+            objectFit: 'cover',
+            border: '2px solid var(--primary-border)',
+            boxShadow: 'var(--shadow-card)',
+            flexShrink: 0,
+            background: '#FFFFFF',
+          }}
+        />
+        <div>
+          <h1 style={{ fontSize: '1.625rem', fontWeight: '700', color: 'var(--text)', marginBottom: '2px' }}>
+            Brilliance Tutoring
+          </h1>
+          <p style={{ fontSize: '0.875rem', color: 'var(--primary)', fontWeight: '600', marginBottom: '2px' }}>
+            សាលាគរុបំប៉ន ប្រ៊ីលាន • Discipline · Quality · Virtue
+          </p>
+          <p className="text-secondary" style={{ fontSize: '0.8125rem' }}>
+            Gamified maths practice platform for Year 6 and Year 9 students.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Prompt */}
       <div style={{ marginBottom: 'var(--space-6)', textAlign: 'left' }}>
-        <h1 style={{ fontSize: '1.75rem', marginBottom: 'var(--space-2)' }}>
+        <h2 style={{ fontSize: '1.375rem', marginBottom: 'var(--space-1)' }}>
           Which year do you want to practise?
-        </h1>
-        <p className="text-secondary" style={{ fontSize: '1rem' }}>
-          Choose your curriculum level to explore topics and play short quiz games.
+        </h2>
+        <p className="text-secondary" style={{ fontSize: '0.9375rem' }}>
+          Select your class level to choose a topic and start Quiz Blitz.
         </p>
       </div>
 
@@ -52,6 +91,7 @@ export default function HomeScreen({ progress, onSelectYear }) {
                 gap: '8px',
                 padding: '4px 10px',
                 backgroundColor: 'var(--primary-soft)',
+                border: '1px solid var(--primary-border)',
                 borderRadius: 'var(--radius-sm)',
                 color: 'var(--primary)',
                 fontWeight: '700',
@@ -130,6 +170,7 @@ export default function HomeScreen({ progress, onSelectYear }) {
                 gap: '8px',
                 padding: '4px 10px',
                 backgroundColor: 'var(--primary-soft)',
+                border: '1px solid var(--primary-border)',
                 borderRadius: 'var(--radius-sm)',
                 color: 'var(--primary)',
                 fontWeight: '700',
