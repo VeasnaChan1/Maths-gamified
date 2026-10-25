@@ -1,0 +1,32 @@
+/* No-Slop Clean Component Styles */
+
+.year-card:hover {
+  border-color: var(--primary) !important;
+  background-color: #FAFAF8;
+}
+
+.topic-card:hover {
+  border-color: var(--primary) !important;
+  background-color: #FAFAF8;
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+  border-color: var(--primary) !important;
+  background-color: var(--surface-muted) !important;
+}
+
+.quiz-option-btn:focus-visible {
+  outline: 2px solid var(--focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Mathematical Diagram SVG styling */
+.math-diagram-container svg text {
+  font-family: var(--font-family);
+  user-select: none;
+}
+
+/* Subtle transitions adhering to 100-200ms ease rule */
+a, button {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
