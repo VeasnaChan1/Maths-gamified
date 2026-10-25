@@ -40,11 +40,13 @@
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
   --space-12: 48px;
 
   --shadow-card: 0 2px 8px rgba(28, 25, 23, 0.06);
+  --shadow-card-hover: 0 4px 12px rgba(28, 25, 23, 0.09);
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -123,12 +125,12 @@ p {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
-  padding: var(--space-4);
+  padding: var(--space-6) var(--space-4);
 }
 
 @media (min-width: 768px) {
   .container {
-    padding: var(--space-6) var(--space-8);
+    padding: var(--space-8);
   }
 }
 
@@ -144,24 +146,31 @@ p {
 .header-content {
   max-width: 960px;
   margin: 0 auto;
-  padding: var(--space-3) var(--space-4);
+  padding: 0 var(--space-4);
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .header-content {
+    padding: 0 var(--space-8);
+  }
 }
 
 .brand-section {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .back-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
+  gap: 6px;
+  padding: 6px 14px;
   background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -169,7 +178,8 @@ p {
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  min-height: 38px;
+  height: 38px;
+  flex-shrink: 0;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 
@@ -177,25 +187,34 @@ p {
   background: #EAE8E4;
 }
 
+.brand-title {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+
 .brand-logo-img {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   border: 1.5px solid var(--primary-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
   background: #FFFFFF;
 }
 
-.brand-title {
-  cursor: pointer;
+.brand-text-col {
   display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.25;
 }
 
 .brand-name {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.01em;
@@ -203,8 +222,8 @@ p {
 
 .brand-subtitle {
   font-size: 0.8125rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .header-actions {
@@ -217,7 +236,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
+  padding: 6px 12px;
   background: var(--primary-soft);
   border: 1px solid var(--primary-border);
   border-radius: var(--radius-sm);
@@ -245,13 +264,109 @@ p {
   background: var(--surface-muted);
 }
 
-/* Card Standard */
+/* Standard Card */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   padding: var(--space-6);
+}
+
+/* Topic Card Specific Styles */
+.topic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6); /* Full 24px padding on all sides */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  cursor: pointer;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.topic-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-card-hover);
+  background-color: #FDFDFD;
+}
+
+.topic-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.topic-symbol-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.topic-mastery-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+}
+
+.topic-card-body {
+  margin-bottom: var(--space-4);
+}
+
+.topic-title {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.topic-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.topic-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-3);
+  margin-top: auto;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Year Card on Home */
+.year-card {
+  padding: var(--space-6);
+  border: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.year-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-card-hover);
 }
 
 /* Buttons */

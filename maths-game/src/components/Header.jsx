@@ -43,7 +43,7 @@ export default function Header({
               alt="Brilliance Tutoring Logo"
               className="brand-logo-img"
             />
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.2' }}>
+            <div className="brand-text-col">
               <span className="brand-name">Brilliance Tutoring</span>
               <span className="brand-subtitle">
                 {selectedYear ? `Year ${selectedYear} Maths` : 'Maths Practice'}

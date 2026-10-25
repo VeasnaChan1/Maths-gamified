@@ -9,13 +9,33 @@ export default function TopicPickerScreen({ selectedYear, progress, onSelectTopi
   }
 
   return (
-    <div style={{ maxWidth: '880px', margin: '0 auto', width: '100%' }}>
-      {/* Title & Description */}
+    <div style={{ maxWidth: '960px', margin: '0 auto', width: '100%' }}>
+      {/* Title & Description Header */}
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <h1 style={{ fontSize: '1.75rem', marginBottom: 'var(--space-1)' }}>
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '3px 10px',
+            backgroundColor: 'var(--primary-soft)',
+            border: '1px solid var(--primary-border)',
+            borderRadius: 'var(--radius-sm)',
+            color: 'var(--primary)',
+            fontWeight: '600',
+            fontSize: '0.8125rem',
+            marginBottom: 'var(--space-2)',
+          }}
+        >
+          <span>Year {selectedYear}</span>
+          <span style={{ color: 'var(--text-secondary)' }}>•</span>
+          <span>{selectedYear === 6 ? 'Key Stage 2' : 'Key Stage 3 & GCSE Prep'}</span>
+        </div>
+
+        <h1 style={{ fontSize: '1.75rem', marginBottom: 'var(--space-1)', color: 'var(--text)' }}>
           Year {selectedYear} Topics
         </h1>
-        <p className="text-secondary" style={{ fontSize: '1rem' }}>
+        <p className="text-secondary" style={{ fontSize: '0.9375rem' }}>
           Select a topic to start practising and earning XP.
         </p>
       </div>
@@ -24,8 +44,8 @@ export default function TopicPickerScreen({ selectedYear, progress, onSelectTopi
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 'var(--space-4)',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: 'var(--space-6)',
         }}
       >
         {curriculumYear.topics.map((topic) => {
@@ -37,57 +57,25 @@ export default function TopicPickerScreen({ selectedYear, progress, onSelectTopi
           return (
             <div
               key={topic.id}
-              className="card topic-card"
+              className="topic-card"
               tabIndex={0}
               role="button"
               onClick={() => onSelectTopic(topic.id)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') onSelectTopic(topic.id);
               }}
-              style={{
-                cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: 'var(--space-4) var(--space-5)',
-                border: '1px solid var(--border)',
-                transition: 'border-color 150ms ease, background-color 150ms ease',
-              }}
             >
               <div>
-                {/* Header row: Symbol + Mastery Badge */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginBottom: 'var(--space-3)',
-                  }}
-                >
-                  <span
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '36px',
-                      height: '36px',
-                      borderRadius: 'var(--radius-sm)',
-                      backgroundColor: 'var(--primary-soft)',
-                      color: 'var(--primary)',
-                      fontWeight: '700',
-                      fontSize: '1rem',
-                    }}
-                  >
+                {/* Header row: Mathematical Symbol + Mastery Badge */}
+                <div className="topic-card-top">
+                  <span className="topic-symbol-box">
                     {topic.symbol}
                   </span>
 
                   {/* Mastery Badge (Not started / Practising / Mastered) */}
                   <span
+                    className="topic-mastery-badge"
                     style={{
-                      fontSize: '0.75rem',
-                      fontWeight: '600',
-                      padding: '2px 8px',
-                      borderRadius: 'var(--radius-sm)',
                       backgroundColor:
                         mastery.label === 'Mastered'
                           ? 'var(--success-soft)'
@@ -100,37 +88,38 @@ export default function TopicPickerScreen({ selectedYear, progress, onSelectTopi
                           : mastery.label === 'Practising'
                           ? 'var(--primary)'
                           : 'var(--text-secondary)',
-                      border: '1px solid var(--border)',
+                      borderColor:
+                        mastery.label === 'Mastered'
+                          ? '#BBF7D0'
+                          : mastery.label === 'Practising'
+                          ? 'var(--primary-border)'
+                          : 'var(--border)',
                     }}
                   >
                     {mastery.label}
                   </span>
                 </div>
 
-                {/* Topic Name */}
-                <h3 style={{ fontSize: '1.125rem', marginBottom: 'var(--space-1)', color: 'var(--text)' }}>
-                  {topic.name}
-                </h3>
-                <p className="text-secondary" style={{ fontSize: '0.875rem', marginBottom: 'var(--space-3)' }}>
-                  {topic.shortDesc}
-                </p>
+                {/* Topic Name & Short Description */}
+                <div className="topic-card-body">
+                  <h3 className="topic-title">
+                    {topic.name}
+                  </h3>
+                  <p className="topic-desc">
+                    {topic.shortDesc}
+                  </p>
+                </div>
               </div>
 
               {/* Footer info: XP and question count */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  borderTop: '1px solid var(--border)',
-                  paddingTop: 'var(--space-3)',
-                  marginTop: 'var(--space-2)',
-                  fontSize: '0.8125rem',
-                  color: 'var(--text-secondary)',
-                }}
-              >
+              <div className="topic-card-footer">
                 <span>{topic.questions.length} questions</span>
-                <span style={{ fontWeight: '600', color: topicXp > 0 ? 'var(--primary)' : 'var(--text-secondary)' }}>
+                <span
+                  style={{
+                    fontWeight: '600',
+                    color: topicXp > 0 ? 'var(--primary)' : 'var(--text-secondary)',
+                  }}
+                >
                   {topicXp > 0 ? `${topicXp} XP earned` : '0 XP'}
                 </span>
               </div>
